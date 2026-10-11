@@ -49,6 +49,8 @@ Help the learner master sixth-grade mathematics and become comfortable with sele
 - Worked explanations after each attempt
 - Session summary showing accuracy, topics practiced, and growth
 - Mastery map for all supported topics
+- A collection of 100 badges: 25 starter, 50 intermediate, and 25 advanced
+- A badge cabinet showing earned badges, locked silhouettes, progress, and the next three reachable goals
 - Three science missions, each combining multiple math skills
 - Keyboard, touch, and mouse support
 - Responsive tablet and desktop layouts
@@ -165,6 +167,7 @@ novamath-lab/
 - `Question`: prompt, response type, answer, explanation, hint, skill, difficulty, and generator version
 - `Session`: type, questions, responses, score, duration, and completion date
 - `MissionProgress`: mission identifier, stage, attempts, and completion status
+- `BadgeProgress`: badge identifier, current value, target value, earned date, and optional evidence reference
 
 All persisted data will include a schema version so future releases can migrate older progress safely.
 
@@ -215,6 +218,7 @@ Initial generators will cover fraction operations, integer temperature changes, 
 - Implement per-skill level changes and spaced review
 - Add worked-example recovery after repeated misses
 - Display learner mastery and next-topic recommendations
+- Implement the first 25 starter badges and the badge cabinet
 
 **Exit:** Simulated correct and incorrect streaks cause the documented difficulty changes within safe bounds.
 
@@ -223,6 +227,7 @@ Initial generators will cover fraction operations, integer temperature changes, 
 - Build Mars Rover Route, Ecosystem Rescue, and Orbit Lab
 - Add mission progress and final reasoning prompts
 - Validate all mission calculations and explanations
+- Add the 50 intermediate badges, including mission and cross-topic achievements
 
 **Exit:** Each mission can be completed offline from start to finish and restored after reload.
 
@@ -232,6 +237,7 @@ Initial generators will cover fraction operations, integer temperature changes, 
 - Add export, import, and reset controls
 - Complete responsive design and keyboard/screen-reader review
 - Add app icons, manifest, service worker, and install guidance
+- Add the 25 advanced badges and complete badge accessibility and reset testing
 
 **Exit:** The full MVP meets the acceptance criteria below on laptop and tablet sizes.
 
@@ -268,6 +274,16 @@ Initial generators will cover fraction operations, integer temperature changes, 
 - Learner progress remains on-device unless the parent explicitly exports it.
 - Reset requires confirmation and clears all locally stored learner data.
 
+### Badges
+
+- The catalog contains exactly 100 unique badge identifiers: 25 starter, 50 intermediate, and 25 advanced.
+- Every badge has a deterministic, testable unlock condition documented in [docs/BADGES.md](docs/BADGES.md).
+- Earning the same badge twice is impossible, including after a reload or import.
+- Badge progress and earned dates survive reload, export, and import.
+- Unlock announcements do not interrupt answering and are available to screen readers.
+- Locked badge descriptions never hide information needed to understand how to earn them.
+- No badge requires fast answers, spending money, sharing data, or maintaining an unbroken daily streak.
+
 ## 13. Risks and mitigations
 
 | Risk | Mitigation |
@@ -301,6 +317,8 @@ Initial generators will cover fraction operations, integer temperature changes, 
 8. Build the practice flow with hints, feedback, and summaries.
 9. Implement the adaptive skill-state reducer.
 10. Add the diagnostic, dashboard, and first Mars Rover mission.
+11. Implement the badge event evaluator and persisted badge progress.
+12. Add the badge cabinet and the 25 starter badges before expanding to all 100.
 
 ## 16. Decisions needed after the prototype
 
@@ -309,4 +327,16 @@ Initial generators will cover fraction operations, integer temperature changes, 
 - Whether typed answers should accept equivalent fractions and mixed-number forms in the first release
 - Whether Tauri desktop packaging adds enough value beyond the installable PWA
 - Which school curriculum or state standards, if any, should be mapped explicitly
+
+## 17. Badge system
+
+NovaMath Lab will ship with exactly 100 badges divided by effort and learning depth:
+
+- **25 starter badges:** normally achievable during the first few sessions
+- **50 intermediate badges:** require repeated practice, growing mastery, or mission progress
+- **25 advanced badges:** represent substantial long-term mastery and broad engagement
+
+Badges celebrate practice, recovery, reasoning, breadth, and applied science. They do not reward raw speed, punish missed days, or require a perfect daily streak. The authoritative badge names and unlock conditions are maintained in [docs/BADGES.md](docs/BADGES.md).
+
+The badge engine will consume domain events such as `question_answered`, `hint_used`, `session_completed`, `skill_level_changed`, and `mission_completed`. Unlock evaluation must be deterministic, idempotent, and separate from visual presentation.
 
