@@ -4,6 +4,8 @@
 
 NovaMath Lab includes 100 collectible badges. They are designed to make growth visible without encouraging rushed answers, unhealthy streaks, or fear of mistakes.
 
+The complete generated art set is stored in `assets/badges/`; see [BADGE_ART_DIRECTION.md](BADGE_ART_DIRECTION.md) for its themes, tier styling, and generation prompt set.
+
 | Tier | Count | Expected horizon |
 | --- | ---: | --- |
 | Starter | 25 | First few sessions |
