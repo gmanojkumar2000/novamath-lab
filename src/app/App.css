@@ -1,0 +1,95 @@
+.app-layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.toast-banner {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background-color: var(--color-navy-900);
+  color: #ffffff;
+  padding: var(--space-2) var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-md);
+  border-bottom: 2px solid var(--color-teal-500);
+}
+
+.toast-close {
+  color: #ffffff;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-base);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-bottom: var(--space-8);
+}
+
+.active-session-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-exit-session {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.btn-exit-session:hover {
+  color: var(--color-coral-700);
+}
+
+.session-type-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--action-primary);
+}
+
+.app-footer {
+  margin-top: auto;
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .app-footer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.footer-link-btn {
+  font-size: var(--font-size-xs);
+  color: var(--action-primary);
+  text-decoration: underline;
+}

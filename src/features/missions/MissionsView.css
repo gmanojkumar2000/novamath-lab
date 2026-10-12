@@ -1,0 +1,211 @@
+.missions-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.missions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 900px) {
+  .missions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.mission-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.mission-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.mission-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+
+.mission-header-text {
+  flex-grow: 1;
+}
+
+.mission-codename {
+  font-size: var(--font-size-xs);
+  color: var(--color-coral-700);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.mission-card-header h3 {
+  font-size: var(--font-size-lg);
+  margin-top: 2px;
+}
+
+.mission-status-pill {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  align-self: flex-start;
+}
+
+.status-ready {
+  background-color: var(--color-teal-100);
+  color: var(--color-teal-700);
+}
+
+.status-completed {
+  background-color: var(--color-gold-100);
+  color: var(--color-gold-700);
+}
+
+.mission-theme-bar {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background-color: var(--bg-surface-raised);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.mission-narrative {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+  flex-grow: 1;
+}
+
+.math-connections-section h4 {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.math-topic-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.math-topic-tag {
+  font-size: 11px;
+  background-color: var(--color-cream-200);
+  color: var(--text-primary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.stages-progress-bar {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  margin: var(--space-3) 0;
+}
+
+.stage-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-muted);
+  background-color: var(--bg-surface);
+}
+
+.stage-dot-active {
+  border-color: var(--color-teal-600);
+  background-color: var(--color-teal-50);
+  color: var(--color-teal-700);
+}
+
+.mission-card-footer {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.btn-mission-explore {
+  font-size: var(--font-size-sm);
+  color: var(--action-primary);
+  font-weight: var(--font-weight-semibold);
+  width: 100%;
+  text-align: left;
+}
+
+.btn-mission-explore:hover {
+  text-decoration: underline;
+}
+
+.modal-card-large {
+  max-width: 650px;
+}
+
+.stages-heading {
+  font-size: var(--font-size-base);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.stage-detail-box {
+  display: flex;
+  gap: var(--space-3);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.stage-number-badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  background-color: var(--color-teal-700);
+  color: #ffffff;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.stage-detail-content h5 {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-1);
+}
+
+.stage-detail-content p {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.stage-skills {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
