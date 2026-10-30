@@ -25,3 +25,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Secret & key protections, databases
+*.pem
+*.key
+*secret*
+*credential*
+*.sqlite
+*.sqlite3
+*.db
