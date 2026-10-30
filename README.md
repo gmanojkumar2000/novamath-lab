@@ -1,59 +1,142 @@
 # NovaMath Lab
 
-NovaMath Lab is an offline-first math and science practice app for an advanced sixth-grade learner. It combines adaptive practice with short science missions that apply mathematics to real situations.
+![React 18](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?logo=vite&logoColor=white)
+![Vitest](https://img.shields.io/badge/Tested_with-Vitest-6E9F18?logo=vitest&logoColor=white)
+![Offline First](https://img.shields.io/badge/Architecture-Offline--First-success)
 
-The project is currently in the planning stage. See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the product scope, architecture, milestones, and acceptance criteria. The complete achievement system is defined in [docs/BADGES.md](docs/BADGES.md).
+**NovaMath Lab** is a local-first, offline-capable mathematics and applied science practice platform designed for advanced middle-school learners (grades 6–7). It pairs a deterministic, seeded problem-generation engine and exact rational arithmetic with interactive science missions and a 100-badge progression system—without ads, cloud accounts, or external telemetry.
 
-The first complete visual asset pack is available under [`assets/badges/`](assets/badges/README.md): four themed master sheets and 100 transparent, app-ready badge icons featuring dinosaurs, sports cars, science, construction bricks, and mathematics.
+---
 
-## Product principles
+## 🎯 Use Case & Problem Statement
 
-- Reward reasoning, curiosity, and persistence—not just speed.
-- Strengthen sixth-grade foundations while introducing seventh-grade concepts gradually.
-- Keep the learner experience calm, age-appropriate, and free of ads or accounts.
-- Store learner data locally and give the parent clear control over it.
-- Offer 100 collectible badges: 25 starter, 50 intermediate, and 25 advanced.
+Many K–12 practice platforms optimize for speed drills, require cloud accounts that collect student telemetry, or rely on static question banks that learners quickly memorize. **NovaMath Lab** solves this by:
 
-## Current status — Milestone 1 Practice Engine Complete
+- **Deterministic, Infinite Practice:** Uses a seeded `Mulberry32` pseudo-random number generator (PRNG) and an exact `Fraction` arithmetic engine to generate reproducible, invariant-tested math problems across 8 curriculum strands and 18 skills.
+- **Reasoning Over Speed:** Provides progressive one-step hints before submission and full worked explanations afterward, rewarding conceptual mastery and persistence.
+- **Applied Science Missions:** Connects abstract math (ratios, linear equations, unit rates, geometry, statistics) to multi-stage real-world science scenarios.
+- **Zero-Telemetry Parent Control:** Persists all progress locally in versioned browser storage (`localStorage` schema `v1`) with corrupt-data recovery and one-click JSON export, import, and safe reset.
 
-- [x] **Milestone 0 Foundation**:
-  - React 18 + TypeScript + Vite project foundation
-  - Calm, science-journal visual design system with design tokens (`src/styles/`)
-  - Accessible shell and navigation across all 5 core views
-  - Full curriculum model (8 strands, 18 skills with prerequisite graph)
-  - Complete 100-badge catalog and visual cabinet display
-  - Three science mission definitions and stage progression models
-  - Versioned local persistence (v1) with corrupt-data recovery
-  - Parent data controls (export, import, safe reset)
-  - GitHub Actions CI workflow (`.github/workflows/ci.yml`)
-- [x] **Milestone 1 Practice Engine**:
-  - 10 deterministic question generators with seeded Mulberry32 PRNG and exact `Fraction` arithmetic
-  - Invariant safety verified across 1,000 randomized iterations per generator (10,000 total assertions)
-  - One-step hints that guide without revealing answers
-  - Complete worked explanations shown after attempt
-  - Flexible answer evaluation (text, numbers, currency `$`, units, and equivalent fractions)
-  - Daily challenge (8–10 questions) and skill-specific topic practice sessions (5 questions)
-  - Question card component (`QuestionCard.tsx`) with immediate feedback and step indicator
-  - Session summary card (`SessionSummaryCard.tsx`) displaying accuracy, hints used, and growth highlights
-  - Responsive layouts and touch-friendly controls verified for Chrome on Android-sized viewports
-  - Automated test suite with 75 tests across 7 test suites
+---
 
-## Getting started
+## 🏗️ System Architecture
 
-```bash
-# Install the locked dependency versions
-npm ci
+```mermaid
+flowchart TD
+    subgraph UI["Presentation Layer (React 18 + Design Tokens)"]
+        Home["HomeView\nDaily Challenge & Overview"]
+        Practice["PracticeView\nQuestionCard + SessionSummaryCard"]
+        Missions["MissionsView\nMulti-Stage Applied Science"]
+        Badges["BadgesView\n100-Badge Collectible Cabinet"]
+        Parent["ParentView\nExport / Import / Safe Reset"]
+    end
 
-# Run automated tests
-npm test
+    subgraph Engine["Practice & Math Engine (src/engine/)"]
+        SM["SessionManager\nDaily (8–10 Qs) & Topic (5 Qs) Sessions"]
+        Gen["10 Deterministic Generators\nProportions, Unit Rates, Percent, Integers,\nExpressions, Equations, Geometry, Stats, Probability, Fractions"]
+        PRNG["Seeded Mulberry32 PRNG\nReproducible Problem Instances"]
+        Frac["Exact Fraction Arithmetic\nGCD Reduction & Mixed-Number Parsing"]
+    end
 
-# Run TypeScript type check
-npm run typecheck
+    subgraph Domain["Curriculum & Achievement Domain (src/domain/)"]
+        Curr["Curriculum Graph\n8 Strands · 18 Skills · Prerequisites"]
+        BadgeCat["Badge Catalog\n25 Starter · 50 Intermediate · 25 Advanced"]
+        MissionDef["Science Mission Definitions\nStage Progression Models"]
+    end
 
-# Start the local development server
-npm run dev
+    subgraph Storage["Local Persistence Layer (src/storage/)"]
+        Persist["Versioned LocalStorage (v1)\nSchema Validation & Corrupt-State Recovery"]
+    end
 
-# Create production build
-npm run build
+    Practice --> SM
+    SM --> Gen
+    Gen --> PRNG
+    Gen --> Frac
+    Home --> Domain
+    Missions --> MissionDef
+    Badges --> BadgeCat
+    UI --> Persist
 ```
 
+### Key Architectural Highlights
+- **Exact Rational Math (`src/engine/fraction.ts`):** Avoids IEEE-754 floating-point drift by computing answers using reduced numerators/denominators and validating equivalent fractions, mixed numbers, units, and currency inputs.
+- **Property-Based Invariant Verification (`tests/generatorInvariants.test.ts`):** Every problem generator is verified across 1,000 randomized seeds (10,000+ assertions) to guarantee valid prompts, non-degenerate parameters, hints, worked steps, and self-consistent answer evaluators.
+- **Science-Journal Design System (`src/styles/`):** Custom CSS design tokens crafted for calm readability and touch-friendly tablet/desktop ergonomics.
+
+---
+
+## 📁 Project Structure
+
+```text
+novamath-lab/
+├── .github/workflows/ci.yml      # GitHub Actions CI (typecheck, test suite, production build)
+├── assets/badges/                # 4 master sprite sheets + 100 transparent badge icons + manifest
+├── docs/
+│   ├── BADGES.md                 # Complete 100-badge catalog specification
+│   └── BADGE_ART_DIRECTION.md    # Visual style guide for badge assets
+├── scripts/
+│   └── split_badge_sheets.py     # Utility for slicing master badge sheets into individual icons
+├── src/
+│   ├── app/                      # Application shell & view routing
+│   ├── components/               # Header, Navigation, QuestionCard, SessionSummaryCard
+│   ├── domain/                   # Curriculum skill graph, mission definitions, badge catalog
+│   ├── engine/                   # Mulberry32 PRNG, exact Fraction math, SessionManager, 10 generators
+│   ├── features/                 # Feature views: home, practice, missions, badges, parent
+│   ├── storage/                  # Versioned local persistence & JSON import/export
+│   └── styles/                   # CSS custom properties (design tokens) & global stylesheet
+├── tests/                        # 7 Vitest suites (75 tests including 10,000-iteration invariant checks)
+├── PROJECT_PLAN.md               # Product scope, milestones, and acceptance criteria
+└── package.json
+```
+
+---
+
+## 🚀 Prerequisites & Setup
+
+### Prerequisites
+- **Node.js:** `v20+` (LTS recommended)
+- **npm:** `v10+`
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/gmanojkumar2000/novamath-lab.git
+cd novamath-lab
+
+# 2. Install locked dependencies
+npm ci
+```
+
+---
+
+## 💻 How to Run & Verify
+
+### Start Local Development Server
+```bash
+npm run dev
+```
+Open `http://localhost:5173` in your browser.
+
+### Run Automated Tests & Invariant Suite
+```bash
+# Run all 75 unit & property-based invariant tests
+npm test
+
+# Run tests in interactive watch mode
+npm run test:watch
+```
+
+### Type Check & Production Build
+```bash
+# Verify strict TypeScript types
+npm run typecheck
+
+# Build static production bundle into dist/
+npm run build
+
+# Preview production build locally
+npm run preview
+```

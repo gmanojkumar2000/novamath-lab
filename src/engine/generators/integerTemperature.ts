@@ -88,3 +88,4 @@ export const integerTemperatureGenerator: QuestionGenerator = {
     };
   },
 };
+

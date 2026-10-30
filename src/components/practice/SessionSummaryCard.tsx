@@ -77,3 +77,4 @@ export const SessionSummaryCard: React.FC<SessionSummaryCardProps> = ({
     </article>
   );
 };
+
